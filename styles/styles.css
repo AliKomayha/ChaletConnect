@@ -1,0 +1,64 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar .logo {
+    font-size: 24px;
+}
+
+.navbar nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.navbar .sign-in {
+    padding: 5px 15px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.search-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.search-box input, .search-box select {
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.search-box button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.explore-btn {
+    display: block;
+    width: 200px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+main {
+    text-align: center;
+}
