@@ -70,10 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $row = mysqli_fetch_assoc($result);
 
         if ($password == $row["password"]) {
-            // Start session and set user role
+            // Start session and set owner role
             session_start();
-            $_SESSION["user_id"] = $row["id"];
-            //$_SESSION["user_role"] = $row["rid"];
+            $_SESSION["oid"] = $row["id"];
+          
 
             header("Location: ownerDash.php");
             // Redirect based on role

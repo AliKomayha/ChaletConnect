@@ -84,13 +84,47 @@ function redirectToOwnerPage(){
 }
 
 
-function createChalet(){
-    $conn=connectToDB();
-    $sql="INSERT INTO ''('','','','','',)VALUES ('','','','',)";
+// function addChalet($name, $location, $description, $price, $capacity, $rooms, $services, $ownerId){
+//     $conn=connectToDB();
+//     $sql="INSERT INTO 'chalet'('name', 'location', 'description', 'price', 'capacity', 'rooms','ownerId')
+//             VALUES ('$name', '$location', '$description', '$price', '$capacity', '$rooms','$ownerId');
+//             SET @cid = LAST_INSERT_ID();
+//             INSERT INTO 'chalet_services'()
+//             ";
 
-    $result=mysqli_query($conn,$sql);
-    closeDBconnection($conn);
+//     $result=mysqli_multi_query($conn,$sql);
+//     closeDBconnection($conn);
      
+// }
+
+function addChalet($name, $location, $description, $price, $capacity, $rooms, $services, $ownerId){
+    $conn = connectToDB();
+    
+    // Prepare the chalet insert statement
+    $stmt = $conn->prepare("INSERT INTO chalet (name, location, description, price, capacity, rooms, oid) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssiiii", $name, $location, $description, $price, $capacity, $rooms, $ownerId);
+    
+    if ($stmt->execute()) {
+        // Get the last inserted chalet ID
+        $chaletId = $stmt->insert_id;
+        $stmt->close();
+        
+        // Prepare the chalet_services insert statement
+        $stmtService = $conn->prepare("INSERT INTO chalet_services (cid, sid) VALUES (?, ?)");
+        $stmtService->bind_param("ii", $chaletId, $serviceId);
+        
+        // Insert each selected service for the chalet
+        foreach ($services as $serviceId) {
+            $stmtService->execute();
+        }
+        $stmtService->close();
+        
+        closeDBconnection($conn);
+        return true;
+    } else {
+        closeDBconnection($conn);
+        return false;
+    }
 }
 
 function getChalet($cid){

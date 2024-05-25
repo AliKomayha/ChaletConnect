@@ -1,17 +1,54 @@
 <?php
-// connectToDB and closeDBconnection functions here or include them from an external file
+
 include ("connection.php");
+session_start();
+
+// Check the owner  log in
+if (!isset($_SESSION["oid"])) {
+    header("Location: ownerIndex.php");
+    exit();
+}
 
 $conn=connectToDB();
 
-// Fetch services to display as checkboxes
-
+// Fetch services 
 $servicesResult = mysqli_query($conn, "SELECT id, name FROM services");
 $services = [];
 while ($row = mysqli_fetch_assoc($servicesResult)) {
     $services[] = $row;
 }
-closeDBconnection($conn);
+
+
+$ownerId = $_SESSION["oid"];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $name = isset($_POST["name"]) ? mysqli_real_escape_string($conn, $_POST["name"]) : '';
+    $location = isset($_POST["location"]) ? mysqli_real_escape_string($conn, $_POST["location"]) : '';
+    $description = isset($_POST["description"]) ? mysqli_real_escape_string($conn, $_POST["description"]) : '';
+    $price = isset($_POST["price"]) ? mysqli_real_escape_string($conn, $_POST["price"]) : '';
+    $capacity = isset($_POST["capacity"]) ? mysqli_real_escape_string($conn, $_POST["capacity"]) : '';
+    $rooms = isset($_POST["rooms"]) ? mysqli_real_escape_string($conn, $_POST["rooms"]) : '';
+    $services = isset($_POST['services']) ? $_POST['services'] : [];
+    $ownerId = $_SESSION["oid"];
+
+    if (empty($name) || empty($location) || empty($description) || empty($price) || empty($rooms)) {
+        echo "Fields cannot be empty.";
+    } else {
+            
+            $result=addChalet($name, $location, $description, $price, $capacity, $rooms, $services, $ownerId);
+            if ($result) {
+                echo "Chalet added successfully!";
+                header("Location: ownerDash.php");
+                exit();
+            } else {
+                echo "Error in adding chalet.";
+            }
+        }
+
+
+
+}
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +96,7 @@ closeDBconnection($conn);
 <body>
     <div class="container">
         <h1>Create a New Chalet</h1>
-        <form action="addChalet.php" method="post">
+        <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
             <label for="name">Chalet Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -70,10 +107,16 @@ closeDBconnection($conn);
             <textarea id="description" name="description" required></textarea>
 
             <label for="price">Price:</label>
-            <input type="number" id="price" name="price" required>
+            <input type="number" id="price" name="price" required> in $
 
             <!-- <label for="owner_id">Owner ID:</label>
             <input type="number" id="owner_id" name="owner_id" required> -->
+
+            <label for="capacity">Capacity:</label>
+            <textarea id="capacity" name="capacity" required></textarea>
+
+            <label for="rooms">Rooms:</label>
+            <textarea id="rooms" name="rooms" required></textarea>
 
             <label>Services:</label>
             <div class="checkbox-group">
@@ -84,7 +127,9 @@ closeDBconnection($conn);
                 <?php endforeach; ?>
             </div>
 
-            <input type="submit" value="Add Chalet">
+            <!-- status ??? -->
+
+            <input type="submit" name="submit" value="Add Chalet">
         </form>
     </div>
 </body>
