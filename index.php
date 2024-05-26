@@ -9,6 +9,42 @@
         $chalets[] = $row;
         }
     closeDBconnection($conn);
+
+    // /////// log in request /////////////
+
+    if (isset($_POST["submit"]) && $_POST["submit"] == "login") {
+        // Handle login
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+    $password = md5($password);
+    
+
+    // Retrieve user from the users table
+    $result = logIn($username);
+
+    if ($result && mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_assoc($result);
+
+        if ($password == $row["password"]) {
+            // Start session and set owner role
+            session_start();
+            $_SESSION["cid"] = $row["id"];
+          
+
+            header("Location: index.php");
+            // Redirect based on role
+            // if ($row["rid"] == 1) {
+            //     header("Location: librarianDashboard.php");
+            // } else if($row["rid"] == 2) {
+            //     header("Location: studentDashboard.php");
+            // }
+        } else {
+            echo "Login failed! Incorrect password.";
+        }
+    } else {
+        echo "Login failed! User not found.";
+    }
+    }
 ?>
 
 
@@ -28,7 +64,8 @@
                 <a href="#">list item</a>
                 <a href="ownerIndex.php">List your Chalet</a>
                 <a href="signupPage.php">Register</a>
-                <a href="#" class="sign-in">Sign in</a>
+                
+                <a id="myBtn" class="sign-in">Sign in</a>
             </nav>
         </div>
     </header>
@@ -63,6 +100,33 @@
             <?php endforeach; ?>
     </div>
 
+
+    
+    <!-- sign in modal -->
+    <div id="myModal" class="modal">
+        
+    <div class="modal-content">
+            <span class="close">&times;</span>
+            <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+                <h2>Sign in</h2>
+                <input type="text" placeholder="Email or phone number" name="username" required>
+                <input type="password" placeholder="Password" name="password" required>
+                <div class="checkbox">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">I agree to the terms and conditions</label>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="deals">
+                    <label for="deals">Send me the latest deal alerts</label>
+                </div>
+                <button type="submit" class="btn" name="submit" value="login">Sign in</button>
+                <p>or</p>
+                <button type="button" class="btn google">Continue with Google</button>
+            </form>
+        </div>
+    </div>
+
+<script src="scripts/script2.js"></script>
 
 
 </body>

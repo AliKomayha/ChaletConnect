@@ -16,10 +16,9 @@ function closeDBconnection($conn) {
 /// TO BE EDITED 
 function logIn($username){
     $conn= connectToDB();
-    $sql="SELECT Users.id, username, password, rid FROM Account, Users, Userroles 
-            WHERE account.uid = Users.id
-            AND Users.id= Userroles.uid 
-            AND Account.username = '$username';";
+    $sql="SELECT customer.id, username, password FROM caccount, customer 
+            WHERE caccount.cid = customer.id
+            AND caccount.username = '$username';";
     $result=mysqli_query($conn,$sql);
     closeDBconnection($conn);
     return $result;
@@ -34,6 +33,13 @@ function ownerLogIn($username){
     closeDBconnection($conn);
     return $result;
 
+}
+function logOut()
+{
+    session_start();
+    session_destroy();
+    header("Location: index.php");
+    exit;
 }
 function ownerLogOut()
 {

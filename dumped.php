@@ -1,106 +1,180 @@
-<!-- 
-    add address option to form && request && query
- -->
-
-
-
-<?php
-include ("connection.php");
-
-$conn=connectToDB();
-
- function escapehtmlchars($input)
- {
-     return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
- }
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fname = isset($_POST["fname"]) ? mysqli_real_escape_string($conn, $_POST["fname"]) : '';
-    $lname = isset($_POST["lname"]) ? mysqli_real_escape_string($conn, $_POST["lname"]) : '';
-    $phone = isset($_POST["phone"]) ? mysqli_real_escape_string($conn, $_POST["phone"]) : '';
-    $email = isset($_POST["email"]) ? mysqli_real_escape_string($conn, $_POST["email"]) : '';
-    //$address = isset($_POST["address"]) ? mysqli_real_escape_string($conn, $_POST["address"]) : '';
-    $username = isset($_POST["username"]) ? mysqli_real_escape_string($conn, $_POST["username"]) : '';
-    $password = isset($_POST["password"]) ? mysqli_real_escape_string($conn, $_POST["password"]) : '';
-    // $rid = isset($_POST["rid"]) ? mysqli_real_escape_string($conn, $_POST["rid"]) : '';
-
-    // Security feature: Escape HTML characters
-    $username = escapehtmlchars($username);
-    $password = escapehtmlchars($password);
-    
-
-    // Security feature: Limit username and password length to 20 characters
-    $fname = substr($fname, 0, 20);
-    $lname = substr($lname, 0, 20);
-    $phone = substr($phone, 0, 8);
-    $email = substr($email, 0, 40);
-    $username = substr($username, 0, 20);
-    $password = substr($password, 0, 20);
-    $password = md5($password);
-
-    // Security feature: Ensure username and password are not empty
-    if (empty($username) || empty($password)) {
-        echo "Username and password cannot be empty.";
-    } else {
-            // Insert user into the users table
-            $result=ownerSignUP($email, $fname, $lname, $phone, $username, $password);
-            if ($result) {
-                echo "Registration successful!";
-                redirectToLogInPage();
-            } else {
-                echo "Error in registration " . mysqli_error($conn);
-            }
-        }
-    }
-
-closeDBconnection($conn);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-    <title>Sign Up</title>
+    <title><?= htmlspecialchars($chalet['name']) ?></title>
+    <link rel="stylesheet" href="styles/viewChalet.css">
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f8f8;
+        }
+        .navbar .logo {
+            font-size: 24px;
+        }
+        .navbar nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: black;
+        }
+        .navbar .sign-in {
+            padding: 5px 15px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .chalet-details {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .chalet-main {
+            display: flex;
+            align-items: center;
+        }
+        .chalet-main img {
+            max-width: 300px;
+            border-radius: 10px;
+            margin-right: 20px;
+        }
+        .chalet-main div {
+            flex: 1;
+        }
+        .chalet-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .chalet-images img {
+            width: calc(33.333% - 10px);
+            max-width: 200px;
+            border-radius: 10px;
+        }
+        .chalet-details p {
+            margin: 10px 0;
+        }
+        .services-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .services-list li {
+            background-color: #f0f0f0;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        #calendar {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .booking-form {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .booking-form input[type="date"] {
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .booking-form button {
+            padding: 10px 20px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-    
-            <div class="container">
-                <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
-                <div class="input-group">
-                    <input id="email" type="email" class="form-control" name="email" placeholder="Email">
-                </div>
-                <div class="input-group mt-2">
-                    <input id="fname" type="text" class="form-control" name="fname" placeholder="First name">
-                    <input id="lname" type="text" class="form-control" name="lname" placeholder="Last name">
-                </div>
-                <div class="input-group mt-2">
-                    <input id="phone" type="phone" class="form-control" name="phone" placeholder="Phone number">
-                </div>
-
-                <div class="input-group mt-4">
-                    <input id="username" type="text" class="form-control" name="username" placeholder="Username">
-                </div>
-                <div class="input-group mt-2">
-                    <input id="password" type="password" class="form-control" name="password" placeholder="Password">
-                </div>
-                <div class="mt-2">
-                    <button class="btn btn-secondary text-center" type="submit">Sign Up</button>
-                </div>    
-                </form>
-            </div>
-
+    <header>
+        <div class="navbar">
+            <span class="logo">Chalet Connect</span>
+            <nav>
+                <a href="index.php">Home</a>
+                <a href="ownerIndex.php">List your Chalet</a>
+                <a href="signupPage.php">Register</a>
+                <a href="#" class="sign-in">Sign in</a>
+            </nav>
         </div>
-    </div>
-</div>  
+    </header>
+    <main>
+        <div class="chalet-details">
+            <div class="chalet-main">
+                <img src="<?= htmlspecialchars($mainImage ?: 'default.jpg') ?>" alt="Chalet Main Image">
+                <div>
+                    <h1><?= htmlspecialchars($chalet['name']) ?></h1>
+                    <p><?= htmlspecialchars($chalet['location']) ?></p>
+                </div>
+            </div>
+            <p><?= htmlspecialchars($chalet['description']) ?></p>
+            <p>Price: $<?= htmlspecialchars($chalet['price']) ?></p>
+            <p>Capacity: <?= htmlspecialchars($chalet['capacity']) ?></p>
+            <p>Rooms: <?= htmlspecialchars($chalet['rooms']) ?></p>
 
-    
+            <h2>Services</h2>
+            <ul class="services-list">
+                <?php foreach ($services as $service): ?>
+                    <li><?= htmlspecialchars($service) ?></li>
+                <?php endforeach; ?>
+            </ul>
 
+            <h2>Additional Images</h2>
+            <div class="chalet-images">
+                <?php foreach ($otherImages as $image): ?>
+                    <img src="<?= htmlspecialchars($image) ?>" alt="Chalet Image">
+                <?php endforeach; ?>
+            </div>
+        </div>
 
+        <h2>Booking Calendar</h2>
+        <div id="calendar"></div>
+
+        <div class="booking-form">
+            <h3>Book this Chalet</h3>
+            <form id="bookingForm" method="POST" action="bookChalet.php">
+                <input type="hidden" name="chaletId" value="<?= htmlspecialchars($chaletId) ?>">
+                <input type="date" name="bookingDate" required>
+                <button type="submit">Book Now</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: 'fetchBookings.php?chaletId=<?= $chaletId ?>', // Fetch events from PHP script
+                dateClick: function(info) {
+                    // Handle date click
+                    document.querySelector('input[name="bookingDate"]').value = info.dateStr;
+                }
+            });
+            calendar.render();
+        });
+    </script>
 </body>
-</html>     
-<img src="<?= htmlspecialchars($chalet['url'] ?: 'default.jpg') ?>" alt="Chalet Image">
+</html>

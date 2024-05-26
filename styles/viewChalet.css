@@ -67,3 +67,47 @@ body {
     margin: 5px 0;
     border-radius: 5px;
 }
+
+
+/* calender -------- */
+#calendar {
+    max-width: 800px;
+    margin: 20px auto;
+}
+.booking-form {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.booking-form input[type="date"] {
+    margin: 10px 0;
+    padding: 10px;
+    width: calc(100% - 22px);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.booking-form button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chalet-page{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+
+}
+.chalet-page-left{
+        width: 40%;
+}
+
+.chalet-page-right{
+        width: 40%;
+}

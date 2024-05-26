@@ -1,5 +1,6 @@
 <?php
 include("connection.php");
+session_start();
 
 if (isset($_GET['id'])) {
     $chaletId = intval($_GET['id']);
@@ -65,7 +66,8 @@ if (isset($_GET['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($chalet['name']) ?></title>
     <link rel="stylesheet" href="styles/viewChalet.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css' rel='stylesheet' />
     
 </head>
 <body>
@@ -80,7 +82,9 @@ if (isset($_GET['id'])) {
             </nav>
         </div>
     </header>
-    <main>
+    
+        <div class="chalet-page">
+        <div class="chalet-page-left">
         <div class="chalet-details">
             <div class="chalet-main">
                 <img src="<?= htmlspecialchars($mainImage ?: 'default.jpg') ?>" alt="Chalet Main Image">
@@ -108,8 +112,39 @@ if (isset($_GET['id'])) {
                 <?php endforeach; ?>
             </div>
         </div>
+        </div>
+        <div class="chalet-page-right">
+        <h2>Booking Calendar</h2>
+        <div id="calendar"></div>
+
+        <div class="booking-form">
+            <h3>Book this Chalet</h3>
+            <form id="bookingForm" method="POST" action="bookChalet.php">
+                <input type="hidden" name="chaletId" value="<?= htmlspecialchars($chaletId) ?>">
+                <input type="date" name="bookingDate" required>
+                <button type="submit">Book Now</button>
+            </form>
+        </div>
+        </div>
+    </div>
+        
     </main>
 
-    
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: 'fetchBookings.php?chaletId=<?= $chaletId ?>', // Fetch events from PHP script
+                dateClick: function(info) {
+                    // Handle date click
+                    document.querySelector('input[name="bookingDate"]').value = info.dateStr;
+                }
+            });
+            calendar.render();
+        });
+    </script>
 </body>
 </html>
