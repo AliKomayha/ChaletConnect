@@ -103,3 +103,4 @@ closeDBconnection($conn);
 
 </body>
 </html>     
+<img src="<?= htmlspecialchars($chalet['url'] ?: 'default.jpg') ?>" alt="Chalet Image">
