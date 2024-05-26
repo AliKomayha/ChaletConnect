@@ -101,7 +101,7 @@ closeDBconnection($conn);
                 <div class="chalet-details">
                     <h2><?= $chalet['name'] ?></h2>
                     <p><?= $chalet['location'] ?></p>
-                    <a href="viewChalet.php?id=<?= $chalet['id'] ?>"><button>View Chalet</button></a>
+                    <a href="viewMyChalet.php?id=<?= $chalet['id'] ?>"><button>View My Chalet</button></a>
                 </div>
             </div>
         <?php endforeach; ?>
