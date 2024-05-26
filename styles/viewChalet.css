@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+}
+.navbar .logo {
+    font-size: 24px;
+}
+.navbar nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+}
+.navbar .sign-in {
+    padding: 5px 15px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+.chalet-details {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.chalet-main {
+    display: flex;
+    align-items: center;
+}
+.chalet-main img {
+    max-width: 300px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+.chalet-main div {
+    flex: 1;
+}
+.chalet-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+.chalet-images img {
+    width: calc(33.333% - 10px);
+    max-width: 200px;
+    border-radius: 10px;
+}
+.chalet-details p {
+    margin: 10px 0;
+}
+.services-list {
+    list-style-type: none;
+    padding: 0;
+}
+.services-list li {
+    background-color: #f0f0f0;
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 5px;
+}

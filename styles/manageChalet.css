@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.navbar .logo {
+    font-size: 24px;
+}
+
+.navbar nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: black;
+}
+
+.navbar .sign-in {
+    padding: 5px 15px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
