@@ -9,6 +9,9 @@
         $chalets[] = $row;
         }
     closeDBconnection($conn);
+    if (isset($_GET['logout'])) {
+        logOut();
+    }
 
     // /////// log in request /////////////
 
@@ -61,11 +64,12 @@
         <div class="navbar">
             <span class="logo">Chalet Connect</span>
             <nav>
-                <a href="#">list item</a>
+                
                 <a href="ownerIndex.php">List your Chalet</a>
                 <a href="signupPage.php">Register</a>
                 
                 <a id="myBtn" class="sign-in">Sign in</a>
+                <a href="?logout=true">Log out</a>
             </nav>
         </div>
     </header>
