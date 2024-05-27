@@ -78,16 +78,17 @@ mysqli_close($conn);
         <div class="navbar">
             <span class="logo">Chalet Connect</span>
             <nav>
-                <a href="#">List item</a>
+                <!-- <a href="#">List item</a>
                 <a href="ownerIndex.php">List your Chalet</a>
                 <a href="signupPage.php">Register</a>
-                <a href="#" class="sign-in">Sign in</a>
+                <a href="#" class="sign-in">Sign in</a> -->
             </nav>
         </div>
     </header>
 
     <main>
-        <h1>Manage Images for Chalet: <?= htmlspecialchars($chaletId) ?></h1>
+        <h1>Upload Images: </h1>
+        <p>The first image will be a profile picture for the chalet</p>
         <form action="manageChalet.php?id=<?= htmlspecialchars($chaletId) ?>" method="post" enctype="multipart/form-data">
             <label for="images">Upload Images (up to 6):</label>
             <input type="file" name="images[]" id="images" multiple required>

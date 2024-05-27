@@ -78,7 +78,7 @@ if (isset($_GET['id'])) {
                 <a href="index.php">Home</a>
                 <a href="ownerIndex.php">List your Chalet</a>
                 <a href="signupPage.php">Register</a>
-                <a href="#" class="sign-in">Sign in</a>
+                <!-- <a href="#" class="sign-in">Sign in</a> -->
             </nav>
         </div>
     </header>

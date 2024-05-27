@@ -51,9 +51,9 @@ closeDBconnection($conn);
             
             <span class="logo">Chalet Connect</span>
             <nav>
-                <a href="#">already a partner?</a>
+                <!--<a href="#">already a partner?</a>
                 <a id="myBtn" class="sign-in">Sign in</a>
-                <!-- <button id="myBtn">Sign in</button> -->
+                 <button id="myBtn">Sign in</button> -->
                 <!-- <a id="logOutBtn" onclick="ownerLogOut()" >Log out</a> -->
                 <a href="?logout=true">Logout</a>
                 
