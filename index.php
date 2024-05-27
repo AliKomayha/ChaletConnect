@@ -1,5 +1,12 @@
 <?php
     include ("connection.php");
+    session_start();
+
+    // Check if user is logged in
+    $isCustomerLoggedIn = isset($_SESSION["cid"]);
+    
+
+
 
     $conn = connectToDB();
     
@@ -9,6 +16,7 @@
         $chalets[] = $row;
         }
     closeDBconnection($conn);
+
     if (isset($_GET['logout'])) {
         logOut();
     }
@@ -30,8 +38,9 @@
 
         if ($password == $row["password"]) {
             // Start session and set owner role
-            session_start();
+            //session_start();
             $_SESSION["cid"] = $row["id"];
+            
           
 
             header("Location: index.php");
@@ -58,6 +67,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Chalet Connect</title>
     <link rel="stylesheet" href="styles/styles.css">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var isCustomerLoggedIn = <?= json_encode($isCustomerLoggedIn) ?>;
+            if (isCustomerLoggedIn) {
+                document.getElementById("myBtn").style.display = "none";
+                document.getElementById("myProfileBtn").style.display = "inline-block";
+                document.getElementById("logOutBtn").style.display = "inline-block";
+            } else {
+                document.getElementById("myBtn").style.display = "inline-block";
+                document.getElementById("myProfileBtn").style.display = "none";
+                document.getElementById("logOutBtn").style.display = "none";
+                
+            }
+        });
+    </script>
+
 </head>
 <body>
     <header>
@@ -66,10 +92,12 @@
             <nav>
                 
                 <a href="ownerIndex.php">List your Chalet</a>
+               
                 <a href="signupPage.php">Register</a>
                 
                 <a id="myBtn" class="sign-in">Sign in</a>
-                <a href="?logout=true">Log out</a>
+                <a id="myProfileBtn" href="customerProfile.php" style="display: none;">My Profile</a>
+                <a id="logOutBtn" href="?logout=true">Log out</a>
             </nav>
         </div>
     </header>

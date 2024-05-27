@@ -15,9 +15,9 @@ $conn=connectToDB();
  }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo"hello1";
+    //echo"hello1";
     if (isset($_POST["submit"]) && $_POST["submit"] == "signup") {
-        echo"hello2";
+        //echo"hello2";
     $fname = isset($_POST["fname"]) ? mysqli_real_escape_string($conn, $_POST["fname"]) : '';
     $lname = isset($_POST["lname"]) ? mysqli_real_escape_string($conn, $_POST["lname"]) : '';
     $phone = isset($_POST["phone"]) ? mysqli_real_escape_string($conn, $_POST["phone"]) : '';
@@ -107,7 +107,8 @@ closeDBconnection($conn);
 
     <header>
         <div class="navbar">
-            <span class="logo">Chalet Connect</span>
+            
+            <span class="logo"><a href="index.php">Chalet Connect</a></span>
             <nav>
                 <a href="#">already a partner?</a>
                 <a id="myBtn" class="sign-in">Sign in</a>

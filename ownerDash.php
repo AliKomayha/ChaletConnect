@@ -48,7 +48,8 @@ closeDBconnection($conn);
 <body>
     <header>
         <div class="navbar">
-            <span class="logo"><a href="index.php">Chalet Connect</a></span>
+            
+            <span class="logo">Chalet Connect</span>
             <nav>
                 <a href="#">already a partner?</a>
                 <a id="myBtn" class="sign-in">Sign in</a>
