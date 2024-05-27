@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result=ownerSignUP($email, $fname, $lname, $phone, $username, $password);
             if ($result) {
                 echo "Registration successful!";
-                redirectToLogInPage();
+                redirectToOwnerPage();
             } else {
                 echo "Error in registration " . mysqli_error($conn);
             }

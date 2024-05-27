@@ -1,0 +1,41 @@
+
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 80%;
+    margin: auto;
+}
+.booking {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 500px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+/* .chalet img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+} */
+.booking-details {
+    flex-grow: 1;
+}
+.booking-details h2 {
+    margin: 0;
+}
+.booking-details button {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.add-chalet {
+    margin: 20px 0;
+}

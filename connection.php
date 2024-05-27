@@ -85,7 +85,7 @@ function redirectToLogInPage(){
     exit();
 }
 function redirectToOwnerPage(){
-    header("Location: ownerDash.php");
+    header("Location: ownerIndex.php");
     exit();
 }
 
