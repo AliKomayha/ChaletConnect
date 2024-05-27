@@ -11,7 +11,26 @@
     $conn = connectToDB();
     
     //$result= mysqli_query($conn, "SELECT c.id, c.name, c.location, cp.url FROM chalet c LEFT JOIN chalet_pictures cp ON c.id = cp.cid GROUP BY c.id");
-    $result = mysqli_query($conn, "SELECT c.id, c.name, c.location, cp.url FROM chalet c LEFT JOIN chalet_pictures cp ON c.id = cp.cid WHERE c.status = 'available' GROUP BY c.id");
+    //$result = mysqli_query($conn, "SELECT c.id, c.name, c.location, cp.url FROM chalet c LEFT JOIN chalet_pictures cp ON c.id = cp.cid WHERE c.status = 'available' GROUP BY c.id");
+
+    $location = '';
+    if (isset($_GET['location'])) {
+        $location = $_GET['location'];
+        $location = mysqli_real_escape_string($conn, $location);
+    }
+
+    // Modify the query to include location filtering
+    $sql = "SELECT c.id, c.name, c.location, cp.url 
+        FROM chalet c 
+        LEFT JOIN chalet_pictures cp ON c.id = cp.cid 
+        WHERE c.status = 'available'";
+
+    if (!empty($location)) {
+        $sql .= " AND c.location LIKE '%$location%'";
+    }
+
+    $sql .= " GROUP BY c.id";
+    $result = mysqli_query($conn, $sql);
 
     $chalets = [];
     while ($row = mysqli_fetch_assoc($result)) {
@@ -121,6 +140,13 @@
             <button>Search</button>
         </div>
         <button class="explore-btn">Explore Chalets</button> -->
+       
+    <div class="search-box">
+        <form method="GET" action="index.php">
+            <input type="text" name="location" placeholder="Enter location"> <button type="submit">Search</button>
+        </form>
+    </div>
+
     </main>
 
     <div class="chalet-grid">
