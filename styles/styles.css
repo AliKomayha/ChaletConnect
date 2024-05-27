@@ -69,12 +69,14 @@ main {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    
 }
 
 #home-img {
     max-width: 100%;
     height: auto;
     width: 40%; 
+    margin-bottom: 70px;
 }
 
 .chalet-grid {

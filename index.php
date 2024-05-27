@@ -10,7 +10,9 @@
 
     $conn = connectToDB();
     
-    $result= mysqli_query($conn, "SELECT c.id, c.name, c.location, cp.url FROM chalet c LEFT JOIN chalet_pictures cp ON c.id = cp.cid GROUP BY c.id");
+    //$result= mysqli_query($conn, "SELECT c.id, c.name, c.location, cp.url FROM chalet c LEFT JOIN chalet_pictures cp ON c.id = cp.cid GROUP BY c.id");
+    $result = mysqli_query($conn, "SELECT c.id, c.name, c.location, cp.url FROM chalet c LEFT JOIN chalet_pictures cp ON c.id = cp.cid WHERE c.status = 'available' GROUP BY c.id");
+
     $chalets = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $chalets[] = $row;
@@ -107,7 +109,7 @@
 
     </div>
     <main>
-        <div class="search-box">
+        <!-- <div class="search-box">
             <input type="text" placeholder="Area?">
             <input type="text" placeholder="Price?">
             <input type="date">
@@ -118,7 +120,7 @@
             </select>
             <button>Search</button>
         </div>
-        <!-- <button class="explore-btn">Explore Chalets</button> -->
+        <button class="explore-btn">Explore Chalets</button> -->
     </main>
 
     <div class="chalet-grid">
